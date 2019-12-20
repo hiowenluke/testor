@@ -7,7 +7,7 @@ const caller = require('caller');
 const fx = require('fs-extra');
 
 const config = require('./config');
-const getPathOfNodeModules = require('./lib/getPathOfNodeModules');
+const nmpath = require('nmpath');
 
 const createTempFolder = (tempPath) => {
 	if (!fs.existsSync(tempPath)) {
@@ -74,7 +74,7 @@ const fn = (serverConfig = {}) => {
 	const destFolderPath = tempPath + '/' + appName;
 	fx.copySync(sourceFolderPath, destFolderPath);
 
-	const node_modules = getPathOfNodeModules(appServerPath);
+	const node_modules = nmpath(appServerPath);
 	updateTemplateFiles.indexJs(destFolderPath, appServerPath, serverConfig, appCasesFilePath);
 	updateTemplateFiles.createTestsJs(destFolderPath, node_modules);
 	updateTemplateFiles.testJs(destFolderPath, node_modules);
