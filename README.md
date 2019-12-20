@@ -77,8 +77,8 @@ node test
 
 ## Examples
 
-* [Test web app](./examples/web-app/test)
-* [Test web app with config](./examples/web-app-with-config/test)
+* [Test web app](./examples/web-app)
+* [Test web app with config](./examples/web-app-with-config)
 
 ## License
 
