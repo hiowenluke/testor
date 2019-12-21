@@ -9,6 +9,29 @@ const fx = require('fs-extra');
 const config = require('./config');
 const nmpath = require('nmpath');
 
+const parseCustomerConfig = (myConfig) => {
+	myConfig.protocol = myConfig.protocol || config.protocol;
+
+	if (!myConfig.host) {
+		myConfig.host = config.host;
+
+		if (!myConfig.port) {
+			myConfig.port = config.port;
+		}
+	}
+	else {
+		if (myConfig.host === 'localhost' || myConfig.host === '127.0.0.1') {
+			myConfig.port = config.port;
+		}
+		else {
+			// myConfig.host = "www.abc.com"
+			// Do not change myConfig.port
+		}
+	}
+
+	return myConfig;
+};
+
 const createTempFolder = (tempPath) => {
 	if (!fs.existsSync(tempPath)) {
 		fs.mkdirSync(tempPath)
@@ -38,6 +61,7 @@ const updateTemplateFiles = {
 
 		const content = fs.readFileSync(destFile, 'utf-8');
 		const newContent = content
+			.replace(`'lodash'`, `'${node_modules}/lodash'`)
 			.replace(`'chai'`, `'${node_modules}/chai'`)
 		;
 
@@ -58,13 +82,13 @@ const updateTemplateFiles = {
 	}
 };
 
-const fn = (serverConfig = {}) => {
-	const pathToCaller = caller();
-	serverConfig = Object.assign({}, config, serverConfig);
+const fn = (myConfig = {}) => {
+	myConfig = parseCustomerConfig(myConfig);
 
 	const tempPath = path.resolve(__dirname, '../.temp');
 	createTempFolder(tempPath);
 
+	const pathToCaller = caller();
 	const appTestPath = path.resolve(pathToCaller, '..');
 	const appServerPath = path.resolve(appTestPath, '..');
 	const appCasesFilePath = path.resolve(appTestPath, './cases.js');
@@ -75,7 +99,7 @@ const fn = (serverConfig = {}) => {
 	fx.copySync(sourceFolderPath, destFolderPath);
 
 	const node_modules = nmpath(appServerPath);
-	updateTemplateFiles.indexJs(destFolderPath, appServerPath, serverConfig, appCasesFilePath);
+	updateTemplateFiles.indexJs(destFolderPath, appServerPath, myConfig, appCasesFilePath);
 	updateTemplateFiles.createTestsJs(destFolderPath, node_modules);
 	updateTemplateFiles.testJs(destFolderPath, node_modules);
 
