@@ -1,8 +1,7 @@
 
 const spawn = require('child_process').spawn;
-
 const createTests = require('./createTests');
-const cases = require('{casesPath}');
+const testCasesDefs = require('{casesPath}');
 
 const title = '{title}';
 const serverPath = '{serverPath}';
@@ -28,5 +27,5 @@ describe(title, () => {
 		process.kill(cp.pid, 'SIGTERM');
 	});
 
-	createTests(serverPath, serverConfig, cases);
+	createTests(serverConfig, testCasesDefs);
 });

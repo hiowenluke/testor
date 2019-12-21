@@ -3,7 +3,7 @@ const _ = require('lodash');
 const request = require('request');
 const qs = require('qs');
 
-const fixMethod = (api, method) => {
+const detectMethod = (api, method) => {
 	if (!method) {
 		if (api === '/' || /\.htm[l]$/.test(api)) {
 			method = 'get';
@@ -16,9 +16,9 @@ const fixMethod = (api, method) => {
 	return method;
 };
 
-const compare = (result, testCase) => {
-	const verify = testCase.verify;
-	const expect = testCase.result;
+const compare = (result, def) => {
+	const verify = def.verify;
+	const expect = def.result;
 
 	const isOK = verify ? verify(result) : _.isEqual(result, expect);
 
@@ -47,22 +47,28 @@ const parse = (str) => {
 	return result;
 };
 
-const fn = async (serverInfo, api, testCase) => {
-	let {method, params = {}} = testCase;
+const fn = async (testCase) => {
+	let {protocol, host, method, api, query, params} = testCase;
 
-	method = fixMethod(api, method);
+	method = detectMethod(api, method);
 	method = method.toLowerCase();
-
-	const {host, port} = serverInfo;
 
 	let url, data;
 
 	if (method === 'get') {
-		url = `http://${host}:${port}` + api + '?' + qs.stringify(params);
+		if (params) { // Use params first
+			query = qs.stringify(params);
+		}
+
+		url = `${protocol}//${host}` + api + '?' + query;
 		data = {url};
 	}
 	else {
-		url = `http://${host}:${port}` + api;
+		if (!params) { // Parse params from query
+			params = query ? qs.parse(query) : {};
+		}
+
+		url = `${protocol}//${host}` + api;
 		data = {url, form: params};
 	}
 
