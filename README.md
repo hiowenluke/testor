@@ -32,16 +32,19 @@ node test
 
 Use an array to define test cases in file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)".
 
+### 1. Basic definition
+
 1\. Minimal version, with a result object
 
 ```js
 module.exports = [
     
-    // The target url. 
-    // It will be completed to "http://localhost:3000/about"
+    // The target url which will be tested. 
+    // It will be completed like "http://localhost:3000/about" if it is not started with "http:..."
     '/about', 
 
-    // The expected result which should be returned from the server
+    // The expected result which should be returned from the server.
+    // The result can be any structure. The following is Noapi style.
     {
         success: true,
         data: {
@@ -51,16 +54,14 @@ module.exports = [
 ];
 ```
 
-2\. Full definition, with "method", "params", "result" and "verify"
+2\. With "method", "params", "result" and "verify"
 
 ```js
 module.exports = [
     
-    // The target url. 
-    // It will be completed to "http://localhost:3000/say/hi"
     '/say/hi',
     {
-        // Support GET and POST. The default is POST
+        // The default is POST
         method: 'GET', 
 
         // The params with test data will be send to the target url 
@@ -70,7 +71,6 @@ module.exports = [
         },
 
         // The expected result which should be returned from the server.
-        // The result can be any structure. The following is Noapi style.
         result: {
             success: true,
             data: {
@@ -78,7 +78,7 @@ module.exports = [
             }
         },
         
-        // If a verify function is specified, it will be used
+        // If a verify() function is specified, it will be used
         // instead of the property "result" to verify the result.
         verify(result) {
             
@@ -139,10 +139,127 @@ module.exports = [
 ];
 ```
 
+### 2. Using title of test case
+
+We can specify a title string before url like below, Testor will prints it instead of the url.
+
+```js
+module.exports = [
+    
+    'Passing test data via params, and using GET method',
+    '/say/hi',
+    {
+        method: 'GET', // default is POST
+
+        params: {
+            name: 'owen',
+            age: 100
+        },
+
+        result: {
+            success: true,
+            data: {
+                msg: "Hi, I am owen, 100 years old."
+            }
+        }
+    },
+
+    'Passing test data via url',
+    '/say/hi?name=owen&age=100',
+    {
+        result: {
+            success: true,
+            data: {
+                msg: "Hi, I am owen, 100 years old."
+            }
+        }
+    },
+
+];
+```
+
+Result
+
+```sh
+  02 title of test cases
+    ✓ Passing test data via params, and using GET method
+    ✓ Passing test data via url
+
+  2 passing (1s)
+```
+
+See [demo file](./examples/02-title-of-test-cases/test/cases.js) to learn more.
+
+### 3. Before and after
+
+Sometimes we wanna do something before test and after tested, use "**before**" and "**after**" like below. 
+
+```js
+module.exports = [
+    
+    // Step 2
+    '/user/list',
+    {
+        // Step 1
+        before: [
+            '/user/register?username=owen&password=123',
+            '/user/login?username=owen',
+        ],
+
+        // Step 3
+        after: [
+            '/user/kill?username=owen',
+        ],
+
+        // Step 4: using the result returned from step 2
+        verify(result) {
+            const rst = result.data.find(item => item.username === 'owen');
+            return !!rst;
+        }
+    },
+    
+];
+```
+
+More further, we can use "**resultUrl**" instead of the target url to get the result like below.
+
+```js
+module.exports = [
+    
+    // Step 2
+    '/user/logout?username=owen',
+    {
+        // Step 1
+        before: [
+            '/user/register?username=owen&password=123',
+            '/user/login?username=owen',
+        ],
+
+        // Step 3: using this url to get the result
+        resultUrl: '/user/get?username=owen',
+
+        // Step 4
+        after: [
+            '/user/kill?username=owen',
+        ],
+
+        // Step 5: using the result returned from step 3 instead of step 2
+        verify(result) {
+            return result.data.isOnline === 0;
+        }
+    },    
+        
+];
+```
+
+See [demo file](./examples/03-before-and-after/test/cases.js) to learn more.
+
 ## Examples
 
 * [01 Test web app](./examples/01-test-web-app)
-* [02 Test web app with config](./examples/02-test-web-app-with-config)
+* [02 title of test cases](./examples/02-title-of-test-cases)
+* [03 before and after](./examples/03-before-and-after)
+* [99 with config](./examples/99-with-config)
 
 ## Options
 
