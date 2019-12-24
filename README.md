@@ -14,7 +14,7 @@ npm install testor --save
 
 1\. Create folder "test" under your project root path
 
-2\. Create file "[./test/index.js](./examples/01-test-web-app/test/index.js)"
+2\. Create file "./test/index.js"
 
 ```js
 require('testor')()
@@ -146,11 +146,13 @@ module.exports = [
 
 ## Options
 
+It can be omitted if it is the default value as below.
+
 ```js
 const options = {
-    protocol: 'http', // Or https. The default is "http"
-    host: 'localhost', // Or www.abc.com. The default is "localhost"
-    port: 3000, // Or omit it. The default is 3000
+    protocol: 'http',
+    host: 'localhost',
+    port: 3000,
 };
 require('testor')(options)
 ```
