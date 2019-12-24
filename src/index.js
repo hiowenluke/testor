@@ -9,7 +9,7 @@ const fx = require('fs-extra');
 const config = require('./config');
 const nmpath = require('nmpath');
 
-const parseCustomerConfig = (myConfig) => {
+const parseUserConfig = (myConfig) => {
 	myConfig.protocol = myConfig.protocol || config.protocol;
 
 	if (!myConfig.host) {
@@ -83,7 +83,7 @@ const updateTemplateFiles = {
 };
 
 const fn = (myConfig = {}) => {
-	myConfig = parseCustomerConfig(myConfig);
+	myConfig = parseUserConfig(myConfig);
 
 	const tempPath = path.resolve(__dirname, '../.temp');
 	createTempFolder(tempPath);
