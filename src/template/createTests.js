@@ -4,13 +4,37 @@ const parse = require('url').parse;
 const test = require('./test');
 const _ = require('lodash');
 
-const getTestCases = (testCasesDefs) => {
-	let urls = testCasesDefs.filter((item, index) => index % 2 === 0);
-	let defs = testCasesDefs.filter((item, index) => index % 2 === 1);
+const parseTestCasesDefs = (testCasesDefs) => {
+	let titles = [];
+	let urls = [];
+	let defs = [];
 
+	let i = 0;
+	testCasesDefs.forEach(item => {
+		if (typeof item === 'string') {
+			if (item.substr(0, 1) === '/' || /^http(s):\/\//.test(item)) {
+				urls[i] = item;
+			}
+			else {
+				titles[i] = item;
+			}
+		}
+		else {
+			if (!titles[i]) titles[i] = urls[i];
+			defs[i] = item;
+			i ++;
+		}
+	});
+
+	return [titles, urls, defs];
+};
+
+const getTestCases = (testCasesDefs) => {
+	const [titles, urls, defs] = parseTestCasesDefs(testCasesDefs);
 	const testCases = [];
 
 	for (let i = 0; i < urls.length; i ++) {
+		const title = titles[i];
 		const url = urls[i];
 		const def = defs[i];
 
@@ -45,6 +69,7 @@ const getTestCases = (testCasesDefs) => {
 			}
 		}
 
+		testCase.title = title;
 		testCase.originalUrl = url;
 		testCases.push(testCase);
 	}
@@ -88,7 +113,7 @@ const fn = (serverConfig, testCasesDefs) => {
 	for (let i = 0; i < testCases.length; i ++) {
 		const testCase = testCases[i];
 
-		it(testCase.originalUrl, async () => {
+		it(testCase.title, async () => {
 			const result = await test(testCase);
 			expect(result).to.be.true;
 		});
