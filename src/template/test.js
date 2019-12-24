@@ -32,7 +32,7 @@ const compare = (result, def) => {
 	return isOK;
 };
 
-const parse = (str) => {
+const parseResult = (str) => {
 	let result = str;
 
 	if (!/[[{]/.test(result)) {
@@ -47,7 +47,7 @@ const parse = (str) => {
 	return result;
 };
 
-const fn = async (testCase) => {
+const parseTestCase = (testCase) => {
 	let {protocol, host, method, api, query, params} = testCase;
 
 	method = detectMethod(api, method);
@@ -72,9 +72,15 @@ const fn = async (testCase) => {
 		data = {url, form: params};
 	}
 
+	return [method, data];
+};
+
+const fn = async (testCase) => {
+	const [method, data] = parseTestCase(testCase);
+
 	return new Promise(resolve => {
 		request[method](data, (error, response, body) => {
-			const result = parse(body);
+			const result = parseResult(body);
 			const isOK = compare(result, testCase);
 			resolve(isOK);
 		});
