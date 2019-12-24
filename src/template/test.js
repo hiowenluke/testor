@@ -3,6 +3,8 @@ const _ = require('lodash');
 const request = require('request');
 const qs = require('qs');
 
+let hostDefinition;
+
 const detectMethod = (api, method) => {
 	if (!method) {
 		if (api === '/' || /\.htm[l]$/.test(api)) {
@@ -16,7 +18,7 @@ const detectMethod = (api, method) => {
 	return method;
 };
 
-const compare = (result, def) => {
+const compareResult = (result, def) => {
 	const verify = def.verify;
 	const expect = def.result;
 
@@ -75,13 +77,53 @@ const parseTestCase = (testCase) => {
 	return [method, data];
 };
 
-const fn = async (testCase) => {
-	const [method, data] = parseTestCase(testCase);
+const performUrls = async (urls) => {
+	if (typeof urls === 'string') {
+		urls = [urls];
+	}
+
+	for (let i = 0; i < urls.length; i ++) {
+		const url = urls[i];
+		await getResultFromUrl(url);
+	}
+};
+
+const getResultFromUrl = (url) => {
+
+	// "/about" => "http://localhost:3000/about"
+	if (url.substr(0, 1) === '/') {
+		const {protocol, host} = hostDefinition;
+		url = `${protocol}//${host}` + url;
+	}
 
 	return new Promise(resolve => {
-		request[method](data, (error, response, body) => {
+		request.get({url}, (error, response, body) => {
 			const result = parseResult(body);
-			const isOK = compare(result, testCase);
+			resolve(result);
+		})
+	})
+};
+
+const fn = async (testCase) => {
+	const [method, data] = parseTestCase(testCase);
+	const {before, after, resultUrl} = testCase;
+
+	const {protocol, host} = testCase;
+	hostDefinition = {protocol, host};
+
+	before && await performUrls(before);
+
+	return new Promise(resolve => {
+		request[method](data, async (error, response, body) => {
+
+			const result = resultUrl ?
+				await getResultFromUrl(resultUrl) :
+				parseResult(body)
+			;
+
+			after && await performUrls(after);
+
+			const isOK = compareResult(result, testCase);
 			resolve(isOK);
 		});
 	})
