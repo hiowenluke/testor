@@ -206,7 +206,7 @@ See [demo file](./examples/02-title-of-test-cases/test/cases.js) to learn more.
 
 ### 3. Before and after
 
-Sometimes we wanna do something before test and after tested, use "**before**" and "**after**" like below. 
+Sometimes we wanna do something before test and after tested, use "**before**" and "**after**" like below. The "before" and "after" should be a url array or a url string.
 
 ```js
 module.exports = [
@@ -221,9 +221,7 @@ module.exports = [
         ],
 
         // Step 3
-        after: [
-            '/user/kill?username=owen',
-        ],
+        after: '/user/kill?username=owen',
 
         // Step 4: using the result returned from step 2
         verify(result) {
@@ -235,7 +233,7 @@ module.exports = [
 ];
 ```
 
-More further, we can use "**resultUrl**" instead of the target url to get the result like below.
+More further, we can use "**resultUrl**" instead of the target url to get the result like below step 3.
 
 ```js
 module.exports = [
@@ -253,9 +251,7 @@ module.exports = [
         resultUrl: '/user/get?username=owen',
 
         // Step 4
-        after: [
-            '/user/kill?username=owen',
-        ],
+        after: '/user/kill?username=owen',
 
         // Step 5: using the result returned from step 3 instead of step 2
         verify(result) {
@@ -268,47 +264,77 @@ module.exports = [
 
 See [demo file](./examples/03-before-and-after/test/cases.js) to learn more.
 
-### 4. Before and after with scripts
+### 4. Before and after with title
 
-We can write some scripts under directory "test", and use them in before and after.
+We can use the title of test case instead of url in "before" and "after".
 
 ```js
 module.exports = [
-	
-	// Step 2
-	'/user/logout?username=owen',
-	{
-		// Step 1
-		before: [
-			'./scripts/user/register?username=owen&password=123',
-			'./scripts/user/login?username=owen&password=123',
-		],
 
-		// Step 3: use this url to get the result
-		resultUrl: './scripts/user/get?username=owen',
+    'register',
+    '/user/register?username=owen&password=123',
+    {
+        // Using the title instead of url
+        before: 'kill',
 
-		// Step 4
-		after: [
-			'./scripts/user/kill?username=owen',
-		],
-
-		// Step 5: use the result returned from step 3 instead of step 2
-		verify(result) {
-			return result.data.isOnline === 0;
-		}
-	},
-	
+        verify(result) {
+            return result.data > 0;
+        }
+    },
+    
+    'kill',
+    '/user/kill?username=owen',
+    {
+        verify(result) {
+            return result.data === 1;
+        }
+    },
+    
 ];
 ```
 
-See [demo file](./examples/04-before-and-after-with-scripts/test) to learn more. 
+See [demo file](./examples/04-before-and-after-with-title) to learn more.
+
+### 5. Before and after with scripts
+
+We can write some scripts under directory "test", and use them in "before" and "after".
+
+```js
+module.exports = [
+    
+    // Step 2
+    '/user/logout?username=owen',
+    {
+        // Step 1
+        before: [
+            './scripts/user/register?username=owen&password=123',
+            './scripts/user/login?username=owen&password=123',
+        ],
+
+        // Step 3: use this url to get the result
+        resultUrl: './scripts/user/get?username=owen',
+
+        // Step 4
+        after: './scripts/user/kill?username=owen',
+
+        // Step 5: use the result returned from step 3 instead of step 2
+        verify(result) {
+            return result.data.isOnline === 0;
+        }
+    },
+    
+];
+```
+
+See [demo file](./examples/05-before-and-after-with-scripts/test) to learn more. 
 
 ## Examples
 
 * [01 test web app](./examples/01-test-web-app)
 * [02 title of test cases](./examples/02-title-of-test-cases)
 * [03 before and after](./examples/03-before-and-after)
-* [04 before and after with scripts](./examples/04-before-and-after-with-scripts)
+* [04 before and after with title](./examples/04-before-and-after-with-title)
+* [05 before and after with scripts](./examples/05-before-and-after-with-scripts)
 * [99 with config](./examples/99-with-config)
 
 ## Options
