@@ -39,7 +39,7 @@ const createTempFolder = (tempPath) => {
 };
 
 const updateTemplateFiles = {
-	indexJs(destFolderPath, serverPath, serverConfig, casesPath) {
+	indexJs(destFolderPath, appTestPath, serverPath, serverConfig, casesPath) {
 		const destFile = destFolderPath + '/index.js';
 
 		const serverFolderName = path.basename(serverPath);
@@ -47,6 +47,7 @@ const updateTemplateFiles = {
 
 		const content = fs.readFileSync(destFile, 'utf-8');
 		const newContent = content
+			.replace('{appTestPath}', appTestPath)
 			.replace('{title}', title)
 			.replace('{serverPath}', serverPath)
 			.replace(`'{serverConfig}'`, JSON.stringify(serverConfig))
@@ -56,11 +57,12 @@ const updateTemplateFiles = {
 		fs.writeFileSync(destFile, newContent, 'utf-8');
 	},
 
-	createTestsJs(destFolderPath, node_modules) {
+	createTestsJs(destFolderPath, appTestPath, node_modules) {
 		const destFile = destFolderPath + '/createTests.js';
 
 		const content = fs.readFileSync(destFile, 'utf-8');
 		const newContent = content
+			.replace('{appTestPath}', appTestPath)
 			.replace(`'lodash'`, `'${node_modules}/lodash'`)
 			.replace(`'chai'`, `'${node_modules}/chai'`)
 		;
@@ -68,11 +70,12 @@ const updateTemplateFiles = {
 		fs.writeFileSync(destFile, newContent, 'utf-8');
 	},
 
-	testJs(destFolderPath, node_modules) {
+	testJs(destFolderPath, appTestPath, node_modules) {
 		const destFile = destFolderPath + '/test.js';
 
 		const content = fs.readFileSync(destFile, 'utf-8');
 		const newContent = content
+			.replace('{appTestPath}', appTestPath)
 			.replace(`'lodash'`, `'${node_modules}/lodash'`)
 			.replace(`'request'`, `'${node_modules}/request'`)
 			.replace(`'qs'`, `'${node_modules}/qs'`)
@@ -91,7 +94,6 @@ const fn = (myConfig = {}) => {
 	const pathToCaller = caller();
 	const appTestPath = path.resolve(pathToCaller, '..');
 	const appServerPath = path.resolve(appTestPath, '..');
-	const appCasesFilePath = path.resolve(appTestPath, './cases.js');
 
 	const appName = path.basename(appServerPath);
 	const sourceFolderPath = path.resolve(__dirname, './template');
@@ -99,9 +101,9 @@ const fn = (myConfig = {}) => {
 	fx.copySync(sourceFolderPath, destFolderPath);
 
 	const node_modules = nmpath(appServerPath);
-	updateTemplateFiles.indexJs(destFolderPath, appServerPath, myConfig, appCasesFilePath);
-	updateTemplateFiles.createTestsJs(destFolderPath, node_modules);
-	updateTemplateFiles.testJs(destFolderPath, node_modules);
+	updateTemplateFiles.indexJs(destFolderPath, appTestPath, appServerPath, myConfig);
+	updateTemplateFiles.createTestsJs(destFolderPath, appTestPath, node_modules);
+	updateTemplateFiles.testJs(destFolderPath, appTestPath, node_modules);
 
 	const mochaFile = node_modules + "/mocha/bin/mocha";
 	spawn('node', [mochaFile, destFolderPath], {stdio: "inherit"});
