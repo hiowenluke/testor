@@ -273,6 +273,7 @@ See [demo file](./examples/03-before-and-after/test/cases.js) to learn more.
 * [01 Test web app](./examples/01-test-web-app)
 * [02 title of test cases](./examples/02-title-of-test-cases)
 * [03 before and after](./examples/03-before-and-after)
+* [04 before and after with scripts](./examples/04-before-and-after-with-scripts)
 * [99 with config](./examples/99-with-config)
 
 ## Options
