@@ -5,7 +5,7 @@
 const db = require('../../db');
 
 const fn = async (username) => {
-	const result = await db.update('user', username, 'isOnline', 1);
+	const result = await db.user.update(username, 'isOnline', 1);
 	return !!result;
 };
 

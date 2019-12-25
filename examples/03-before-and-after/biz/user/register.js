@@ -5,7 +5,7 @@
 const db = require('../../db');
 
 const fn = async (username, password) => {
-	return await db.insert('user', {username, password});
+	return await db.user.insert({username, password});
 };
 
 module.exports = fn;

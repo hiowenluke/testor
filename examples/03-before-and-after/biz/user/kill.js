@@ -5,7 +5,7 @@
 const db = require('../../db');
 
 const fn = async (username) => {
-	return await db.delete('user', username);
+	return await db.user.delete(username);
 };
 
 module.exports = fn;

@@ -11,39 +11,40 @@ const data = {
 
 // Fake database
 const db = {
+	user: {
+		async insert(userInfo) {
+			userInfo.isOnline = 0;
+			data.user.push(userInfo);
 
-	async insert(tableName, userInfo) {
-		const index = data[tableName].findIndex(item => item.username === userInfo.username);
-		userInfo.isOnline = 0;
-		data[tableName].push(userInfo);
+			const id = data.user.length;
+			return id;
+		},
 
-		return data[tableName].length;
-	},
+		async update(username, fieldName, value) {
+			const userInfo = data.user.find(item => item.username === username);
+			userInfo[fieldName] = value;
 
-	async update(tableName, username, fieldName, value) {
-		const userInfo = data[tableName].find(item => item.username === username);
-		userInfo[fieldName] = value;
+			return 1;
+		},
 
-		return 1;
-	},
+		async delete(username) {
+			const result = data.user.find((item, index) => {
+				if (item.username === username) {
+					data.user.splice(index, 1);
+					return true;
+				}
+			});
 
-	async delete(tableName, username) {
-		const result = data[tableName].find((item, index) => {
-			if (item.username === username) {
-				data[tableName].splice(index, 1);
-				return true;
+			return !!result;
+		},
+
+		async select(username) {
+			if (!username) {
+				return data.user;
 			}
-		});
-
-		return !!result;
-	},
-
-	async select(tableName, username) {
-		if (!username) {
-			return data[tableName];
-		}
-		else {
-			return data[tableName].find(item => item.username === username);
+			else {
+				return data.user.find(item => item.username === username);
+			}
 		}
 	}
 };

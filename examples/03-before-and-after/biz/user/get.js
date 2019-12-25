@@ -5,7 +5,7 @@
 const db = require('../../db');
 
 const fn = async (username) => {
-	return await db.select('user', username);
+	return await db.user.select(username);
 };
 
 module.exports = fn;
