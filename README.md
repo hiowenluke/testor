@@ -217,7 +217,7 @@ module.exports = [
         // Step 1
         before: [
             '/user/register?username=owen&password=123',
-            '/user/login?username=owen',
+            '/user/login?username=owen&password=123',
         ],
 
         // Step 3
@@ -246,7 +246,7 @@ module.exports = [
         // Step 1
         before: [
             '/user/register?username=owen&password=123',
-            '/user/login?username=owen',
+            '/user/login?username=owen&password=123',
         ],
 
         // Step 3: using this url to get the result
@@ -281,7 +281,7 @@ module.exports = [
 		// Step 1
 		before: [
 			'./scripts/user/register?username=owen&password=123',
-			'./scripts/user/login?username=owen',
+			'./scripts/user/login?username=owen&password=123',
 		],
 
 		// Step 3: use this url to get the result
