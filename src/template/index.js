@@ -1,7 +1,9 @@
 
 const spawn = require('child_process').spawn;
 const createTests = require('./createTests');
-const testCasesDefs = require('{casesPath}');
+
+const appTestPath = '{appTestPath}';
+const testCasesDefs = require(appTestPath + '/cases');
 
 const title = '{title}';
 const serverPath = '{serverPath}';
