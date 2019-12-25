@@ -8,6 +8,7 @@ const cp = require('child_process');
 
 const appTestPath = '{appTestPath}';
 let hostDefinition;
+let titleUrls;
 
 const detectMethod = (api, method) => {
 	if (!method) {
@@ -95,6 +96,14 @@ const performUrls = async (urls) => {
 const getResultFromUrl = (url) => {
 	const fromUrl = () => {
 
+		if (/^http(s)/.test(url)) {
+			// do nothing
+		}
+		else if (url.substr(0, 1) !== '/') {
+			// title "About" => url "/about"
+			url = titleUrls[url];
+		}
+
 		// "/about" => "http://localhost:3000/about"
 		if (url.substr(0, 1) === '/') {
 			const {protocol, host} = hostDefinition;
@@ -141,12 +150,14 @@ const getResultFromUrl = (url) => {
 	}
 };
 
-const fn = async (testCase) => {
+const fn = async (testCase, _titleUrls) => {
 	const [method, data] = parseTestCase(testCase);
 	const {before, after, resultUrl} = testCase;
 
 	const {protocol, host} = testCase;
 	hostDefinition = {protocol, host};
+
+	titleUrls = _titleUrls;
 
 	before && await performUrls(before);
 
