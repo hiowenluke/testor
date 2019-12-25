@@ -2,13 +2,12 @@
 const me = [
 
 	// Step 2
-	'/user/list',
+	'/user/login?username=owen&password=123',
 	{
 		// Step 1
 		before: [
 			'./scripts/doSomething?username=owen',
 			'./scripts/user/register?username=owen&password=123',
-			'./scripts/user/login?username=owen',
 		],
 
 		// Step 3
@@ -18,8 +17,7 @@ const me = [
 
 		// Step 4: use the result returned from step 2
 		verify(result) {
-			const rst = result.data.find(item => item.username === 'owen');
-			return !!rst;
+			return result.data === true;
 		}
 	},
 
@@ -29,7 +27,7 @@ const me = [
 		// Step 1
 		before: [
 			'./scripts/user/register?username=owen&password=123',
-			'./scripts/user/login?username=owen',
+			'./scripts/user/login?username=owen&password=123',
 		],
 
 		// Step 3: use this url to get the result
