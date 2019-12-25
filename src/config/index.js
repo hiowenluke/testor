@@ -1,6 +1,6 @@
 
 const me = {
-	webServer: {
+	server: {
 		protocol: 'http',
 		host: 'localhost',
 		port: 3000,
