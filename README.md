@@ -268,6 +268,41 @@ module.exports = [
 
 See [demo file](./examples/03-before-and-after/test/cases.js) to learn more.
 
+### 4. Before and after with scripts
+
+We can write some scripts under directory "test", and use them in before and after.
+
+```js
+module.exports = [
+	
+	// Step 2
+	'/user/logout?username=owen',
+	{
+		// Step 1
+		before: [
+			'./scripts/user/register?username=owen&password=123',
+			'./scripts/user/login?username=owen',
+		],
+
+		// Step 3: use this url to get the result
+		resultUrl: './scripts/user/get?username=owen',
+
+		// Step 4
+		after: [
+			'./scripts/user/kill?username=owen',
+		],
+
+		// Step 5: use the result returned from step 3 instead of step 2
+		verify(result) {
+			return result.data.isOnline === 0;
+		}
+	},
+	
+];
+```
+
+See [demo file](./examples/04-before-and-after-with-scripts/test) to learn more. 
+
 ## Examples
 
 * [01 test web app](./examples/01-test-web-app)
