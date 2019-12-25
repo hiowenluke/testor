@@ -9,20 +9,22 @@ const fx = require('fs-extra');
 const config = require('./config');
 const nmpath = require('nmpath');
 
-const parseUserConfig = (myConfig) => {
-	myConfig.protocol = myConfig.protocol || config.protocol;
+const parseAppConfig = (appConfig) => {
+	const defConfig = config.server;
 
-	if (!myConfig.host) {
-		myConfig.host = config.host;
+	appConfig.protocol = appConfig.protocol || defConfig.protocol;
 
-		if (!myConfig.port) {
-			myConfig.port = config.port;
+	if (!appConfig.host) {
+		appConfig.host = defConfig.host;
+
+		if (!appConfig.port) {
+			appConfig.port = defConfig.port;
 		}
 	}
 	else {
-		if (myConfig.host === 'localhost' || myConfig.host === '127.0.0.1') {
-			if (!myConfig.port) {
-				myConfig.port = config.port;
+		if (appConfig.host === 'localhost' || appConfig.host === '127.0.0.1') {
+			if (!appConfig.port) {
+				appConfig.port = defConfig.port;
 			}
 		}
 		else {
@@ -31,7 +33,7 @@ const parseUserConfig = (myConfig) => {
 		}
 	}
 
-	return myConfig;
+	return appConfig;
 };
 
 const createTempFolder = (tempPath) => {
@@ -87,8 +89,8 @@ const updateTemplateFiles = {
 	}
 };
 
-const fn = (myConfig = {}) => {
-	myConfig = parseUserConfig(myConfig);
+const fn = (appConfig = {}) => {
+	appConfig = parseAppConfig(appConfig);
 
 	const tempPath = path.resolve(__dirname, '../.temp');
 	createTempFolder(tempPath);
@@ -103,7 +105,7 @@ const fn = (myConfig = {}) => {
 	fx.copySync(sourceFolderPath, destFolderPath);
 
 	const node_modules = nmpath(appServerPath);
-	updateTemplateFiles.indexJs(destFolderPath, appTestPath, appServerPath, myConfig);
+	updateTemplateFiles.indexJs(destFolderPath, appTestPath, appServerPath, appConfig);
 	updateTemplateFiles.createTestsJs(destFolderPath, appTestPath, node_modules);
 	updateTemplateFiles.testJs(destFolderPath, appTestPath, node_modules);
 
