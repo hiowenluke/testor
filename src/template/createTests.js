@@ -77,6 +77,17 @@ const getTestCases = (testCasesDefs) => {
 	return testCases;
 };
 
+const getTitleUrls = (testCases) => {
+	const obj = {};
+
+	testCases.forEach(testCase => {
+		const {title, originalUrl} = testCase;
+		obj[title] = originalUrl;
+	});
+
+	return obj;
+};
+
 const parseUrls = (serverConfig, testCases) => {
 	let {protocol, host, port} = serverConfig;
 
@@ -108,13 +119,14 @@ const parseUrls = (serverConfig, testCases) => {
 
 const fn = (serverConfig, testCasesDefs) => {
 	const testCases = getTestCases(testCasesDefs);
+	const titleUrls = getTitleUrls(testCases);
 	parseUrls(serverConfig, testCases);
 
 	for (let i = 0; i < testCases.length; i ++) {
 		const testCase = testCases[i];
 
 		it(testCase.title, async () => {
-			const result = await test(testCase);
+			const result = await test(testCase, titleUrls);
 			expect(result).to.be.true;
 		});
 	}
