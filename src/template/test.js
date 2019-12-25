@@ -1,8 +1,12 @@
 
 const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
 const request = require('request');
 const qs = require('qs');
+const cp = require('child_process');
 
+const appTestPath = '{appTestPath}';
 let hostDefinition;
 
 const detectMethod = (api, method) => {
@@ -89,19 +93,52 @@ const performUrls = async (urls) => {
 };
 
 const getResultFromUrl = (url) => {
+	const fromUrl = () => {
 
-	// "/about" => "http://localhost:3000/about"
-	if (url.substr(0, 1) === '/') {
-		const {protocol, host} = hostDefinition;
-		url = `${protocol}//${host}` + url;
-	}
+		// "/about" => "http://localhost:3000/about"
+		if (url.substr(0, 1) === '/') {
+			const {protocol, host} = hostDefinition;
+			url = `${protocol}//${host}` + url;
+		}
 
-	return new Promise(resolve => {
-		request.get({url}, (error, response, body) => {
-			const result = parseResult(body);
-			resolve(result);
+		return new Promise(resolve => {
+			request.get({url}, (error, response, body) => {
+				const result = parseResult(body);
+				resolve(result);
+			})
 		})
-	})
+	};
+
+	const fromScript = async () => {
+		url = url
+			.replace(/^\.\/scripts\//i, '')
+			.replace(/^\.\//, '')
+		;
+
+		const [scriptFile, queryStr] = url.split('?');
+		const extName = /\.js$/.test(scriptFile) ? '' : '.js';
+		const query = queryStr ? qs.parse(queryStr) : {};
+
+		const scriptPath = appTestPath + '/scripts/' + scriptFile + extName;
+		const fileContent = fs.readFileSync(scriptPath, 'utf-8');
+
+		const isExports = /((^|\n)module\.exports\s*?=)|((^|\n)exports\s*?=)/.test(fileContent);
+		if (isExports) {
+			const fn = require(scriptPath);
+			return await fn(query);
+		}
+		else {
+			const queryJson = JSON.stringify(query);
+			cp.spawnSync('node',[scriptPath, queryJson], {stdio: 'inherit'});
+		}
+	};
+
+	if (url.substr(0, 1) === '.') {
+		return fromScript();
+	}
+	else {
+		return fromUrl();
+	}
 };
 
 const fn = async (testCase) => {
