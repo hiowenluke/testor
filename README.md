@@ -28,6 +28,20 @@ require('testor')()
 node test
 ```
 
+Result
+
+```sh
+  01 test web app
+    ✓ /about
+    ✓ /say/hi
+    ✓ /say/hi?name=owen&age=100
+    ✓ /say/hi?name=owen&age=100
+    ✓ /say/hi
+    ✓ /helloWorld
+
+  6 passing (1s)
+```
+
 ## Define test cases
 
 Use an array to define test cases in file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)".
