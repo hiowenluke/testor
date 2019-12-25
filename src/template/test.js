@@ -101,7 +101,11 @@ const getResultFromUrl = (url) => {
 		}
 		else if (url.substr(0, 1) !== '/') {
 			// title "About" => url "/about"
-			url = titleUrls[url];
+			const title = url;
+			url = titleUrls[title];
+			if (!url) {
+				throw new Error(`Title ${title} is not exists`);
+			}
 		}
 
 		// "/about" => "http://localhost:3000/about"
