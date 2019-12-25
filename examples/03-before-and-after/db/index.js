@@ -67,6 +67,9 @@ const db = {
 				if (userInfo) {
 					return isReturnId ? userInfo.id : userInfo;
 				}
+				else {
+					return 0;
+				}
 			}
 		}
 	}
