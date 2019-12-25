@@ -1,40 +1,36 @@
 
-// Fake database
-const db = {
-	data: [
+const data = {
+	user: [
 		{
 			username: 'admin',
 			password: '123456',
 			isOnline: 0,
 		}
-	],
+	]
+};
 
-	async insert(userInfo) {
-		const index = this.data.findIndex(item => item.username === userInfo.username);
-		if (index >= 0) {
-			return {error: `Username ${userInfo.username} has already exists`};
-		}
+// Fake database
+const db = {
 
+	async insert(tableName, userInfo) {
+		const index = data[tableName].findIndex(item => item.username === userInfo.username);
 		userInfo.isOnline = 0;
-		this.data.push(userInfo);
+		data[tableName].push(userInfo);
 
-		return this.data.length;
+		return data[tableName].length;
 	},
 
-	async update(username, fieldName, value) {
-		const userInfo = this.data.find(item => item.username === username);
-		if (!userInfo) {
-			return {error: `Username ${username} can not be found`};
-		}
-
+	async update(tableName, username, fieldName, value) {
+		const userInfo = data[tableName].find(item => item.username === username);
 		userInfo[fieldName] = value;
+
 		return 1;
 	},
 
-	async delete(username) {
-		const result = this.data.find((item, index) => {
+	async delete(tableName, username) {
+		const result = data[tableName].find((item, index) => {
 			if (item.username === username) {
-				this.data.splice(index, 1);
+				data[tableName].splice(index, 1);
 				return true;
 			}
 		});
@@ -42,12 +38,12 @@ const db = {
 		return !!result;
 	},
 
-	async select(username) {
+	async select(tableName, username) {
 		if (!username) {
-			return this.data;
+			return data[tableName];
 		}
 		else {
-			return this.data.find(item => item.username === username);
+			return data[tableName].find(item => item.username === username);
 		}
 	}
 };
