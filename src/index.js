@@ -21,7 +21,9 @@ const parseUserConfig = (myConfig) => {
 	}
 	else {
 		if (myConfig.host === 'localhost' || myConfig.host === '127.0.0.1') {
-			myConfig.port = config.port;
+			if (!myConfig.port) {
+				myConfig.port = config.port;
+			}
 		}
 		else {
 			// myConfig.host = "www.abc.com"
