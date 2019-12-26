@@ -114,6 +114,9 @@ const getResultFromUrl = (url) => {
 			url = `${protocol}//${host}` + url;
 		}
 
+		// For unicode
+		url = encodeURI(url);
+
 		return new Promise(resolve => {
 			request.get({url}, (error, response, body) => {
 				const result = parseResult(body);
