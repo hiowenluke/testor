@@ -132,6 +132,10 @@ const getResultFromUrl = (url) => {
 
 		return new Promise(resolve => {
 			request.get({url}, (error, response, body) => {
+				if (error) {
+					throw new Error(error);
+				}
+
 				const result = parseResult(body);
 				resolve(result);
 			})
