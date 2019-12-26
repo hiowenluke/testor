@@ -180,7 +180,6 @@ const fn = async (testCase, _testCases) => {
 
 	const {protocol, host} = testCase;
 	hostDefinition = {protocol, host};
-
 	testCases = _testCases;
 
 	before && await performUrls(before);
