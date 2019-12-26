@@ -5,7 +5,8 @@
   "main": "index.js",
   "bin": "bin/testor.js",
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+    "test-debug": "node test --inspect-brk"
   },
   "keywords": [],
   "author": "hi.owen.luke@gmail.com",
