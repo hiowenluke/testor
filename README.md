@@ -6,7 +6,7 @@ An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), s
 ## Install
 
 ```sh
-npm install testor -g --save-dev
+npm install testor --save-dev
 ```
 
 ## Usage
@@ -415,6 +415,8 @@ Debug tests running in Node using Chrome DevTools inspector.
 ```sh
 testor --inspect-brk 9229
 ```
+
+Then input `chrome://inspect` in your Chrome browser address bar.
 
 ## License
 
