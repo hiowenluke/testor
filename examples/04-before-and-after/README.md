@@ -3,6 +3,6 @@
 
 ```sh
 cd /path/to/testor
-cd examples/99-with-config
+cd examples/04-before-and-after
 node test
 ```

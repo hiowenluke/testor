@@ -3,6 +3,6 @@
 
 ```sh
 cd /path/to/testor
-cd examples/03-before-and-after
+cd examples/02-test-web-app-with-config
 node test
 ```
