@@ -20,6 +20,8 @@ const init = {
 	parseCliOptions() {
 		const options = process.argv.slice(2);
 		options.forEach(opt => {
+			if (!opt) return;
+
 			if (opt.indexOf('--logs') >= 0 || opt.indexOf('--config') >= 0) {
 				testorCliOptions.push(opt);
 			}
