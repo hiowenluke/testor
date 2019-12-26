@@ -28,11 +28,9 @@ The results will be like below:
     ✓ /about
     ✓ /say/hi
     ✓ /say/hi?name=owen&age=100
-    ✓ /say/hi?name=owen&age=100
-    ✓ /say/hi
     ✓ /helloWorld
 
-  6 passing (1s)
+  4 passing (1s)
 ```
 
 ## Define test cases
