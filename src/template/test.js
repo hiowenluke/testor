@@ -7,8 +7,8 @@ const qs = require('qs');
 const cp = require('child_process');
 
 const appTestPath = '{appTestPath}';
-let hostDefinition;
-let titleUrls;
+let hostDefinition = {};
+let testCases = [];
 
 const detectMethod = (api, method) => {
 	if (!method) {
@@ -99,12 +99,25 @@ const getResultFromUrl = (url) => {
 		if (/^http(s)/.test(url)) {
 			// do nothing
 		}
-		else if (url.substr(0, 1) !== '/') {
-			// title "About" => url "/about"
+		else
+
+		// title "About" => url "/about"
+		if (url.substr(0, 1) !== '/') {
 			const title = url;
-			url = titleUrls[title];
-			if (!url) {
+			const index = testCases.findIndex(item => title === title);
+			if (index === -1) {
 				throw new Error(`Title ${title} is not exists`);
+			}
+
+			const originalUrl = testCases[index].url;
+			const params = testCases[index].params;
+			if (!params) {
+				url = originalUrl;
+			}
+			else {
+				// params = {name: "json", age: 30}
+				url = originalUrl.split('?')[0]; // /say/hi?name=owen => /say/hi
+				url += '?' + qs.stringify(params); // /say/hi?name=jason&age=30
 			}
 		}
 
@@ -157,14 +170,14 @@ const getResultFromUrl = (url) => {
 	}
 };
 
-const fn = async (testCase, _titleUrls) => {
+const fn = async (testCase, _testCases) => {
 	const [method, data] = parseTestCase(testCase);
 	const {before, after, resultUrl} = testCase;
 
 	const {protocol, host} = testCase;
 	hostDefinition = {protocol, host};
 
-	titleUrls = _titleUrls;
+	testCases = _testCases;
 
 	before && await performUrls(before);
 
