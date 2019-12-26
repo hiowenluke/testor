@@ -6,7 +6,7 @@ An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), s
 ## Install
 
 ```sh
-npm install testor --save-dev
+npm install testor -g && npm install testor --save-dev
 ```
 
 ## Usage
