@@ -109,7 +109,7 @@ const getResultFromUrl = (url) => {
 				throw new Error(`Title ${title} is not exists`);
 			}
 
-			const originalUrl = testCases[index].url;
+			const originalUrl = testCases[index].originalUrl;
 			const params = testCases[index].params;
 			if (!params) {
 				url = originalUrl;
