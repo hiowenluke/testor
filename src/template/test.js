@@ -94,7 +94,7 @@ const performUrls = async (urls) => {
 };
 
 const getResultFromUrl = (url) => {
-	const fromUrl = () => {
+	const forUrl = () => {
 
 		if (/^http(s)/.test(url)) {
 			// do nothing
@@ -142,7 +142,7 @@ const getResultFromUrl = (url) => {
 		})
 	};
 
-	const fromScript = async () => {
+	const forScript = async () => {
 		url = url
 			.replace(/^\.\/scripts\//i, '')
 			.replace(/^\.\//, '')
@@ -167,10 +167,10 @@ const getResultFromUrl = (url) => {
 	};
 
 	if (url.substr(0, 1) === '.') {
-		return fromScript();
+		return forScript();
 	}
 	else {
-		return fromUrl();
+		return forUrl();
 	}
 };
 
