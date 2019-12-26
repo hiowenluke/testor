@@ -418,6 +418,15 @@ testor --inspect-brk 9229
 
 Then input `chrome://inspect` in your Chrome browser address bar.
 
+## Test
+
+```sh
+git clone https://github.com/hiowenluke/testor
+cd testor
+npm install
+npm test
+```
+
 ## License
 
 [MIT](LICENSE)
