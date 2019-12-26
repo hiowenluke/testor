@@ -414,7 +414,7 @@ Debug tests running in Node using Chrome DevTools inspector.
 testor --inspect-brk 9229
 ```
 
-Then input `chrome://inspect` in your Chrome browser address bar.
+Then input `chrome://inspect` in your Chrome browser address bar, click the link "inspect" under **Remote Target**. Recommend [NiM](https://github.com/june07/NiM) (Node.js --inspector Manager) which is more easy-to-use.
 
 ## Test
 
