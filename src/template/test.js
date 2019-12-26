@@ -104,7 +104,7 @@ const getResultFromUrl = (url) => {
 		// title "About" => url "/about"
 		if (url.substr(0, 1) !== '/') {
 			const title = url;
-			const index = testCases.findIndex(item => title === title);
+			const index = testCases.findIndex(item => item.title === title);
 			if (index === -1) {
 				throw new Error(`Title ${title} is not exists`);
 			}
