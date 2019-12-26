@@ -6,22 +6,16 @@ An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), s
 ## Install
 
 ```sh
-npm install testor -g
+npm install testor -g --save-dev
 ```
 
 ## Usage
 
 1\. Create folder "test" under your project root path
 
-2\. Create file "./test/index.js"
+2\. Create file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)". (See [Define test cases](#Define-test-cases) to learn more)
 
-```js
-require('testor')()
-```
-
-3\. Create file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)". (See [Define test cases](#Define-test-cases) to learn more)
-
-4\. Run test under your project root path
+3\. Run test under your project root path
 
 ```sh
 testor
@@ -341,6 +335,42 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 ## CLi Options
 
 Testor uses [mocha](https://github.com/mochajs/mocha) to run test cases. You can use some mocha CLi options in Testor.
+
+#### Specify the web server root path
+
+By default, Testor will uses the current path as the web server root path.
+ 
+```sh
+testor
+```
+
+It is equivalents to `testor .`. 
+
+You can specify another path like this
+
+```sh
+testor /path/to/web/server/root
+```
+
+Or
+
+```sh
+testor ./web/server/root
+```
+
+#### --config
+
+Apply the web server config.
+
+```sh
+testor --config
+```
+
+It is equivalents to `testor --config=./config.js`. You can specify another config file.
+
+```sh
+testor --config=./myconfig.js
+```
 
 #### --logs
 
