@@ -9,31 +9,22 @@ const fx = require('fs-extra');
 const config = require('./config');
 const nmpath = require('nmpath');
 
-const parseAppConfig = (appConfig) => {
-	const defConfig = config.server;
+const mochaCliOptions = [];
 
-	appConfig.protocol = appConfig.protocol || defConfig.protocol;
+const parseUserConfig = (userConfig) => {
+	Object.assign(config.server, userConfig);
+};
 
-	if (!appConfig.host) {
-		appConfig.host = defConfig.host;
-
-		if (!appConfig.port) {
-			appConfig.port = defConfig.port;
-		}
-	}
-	else {
-		if (appConfig.host === 'localhost' || appConfig.host === '127.0.0.1') {
-			if (!appConfig.port) {
-				appConfig.port = defConfig.port;
-			}
+const parseCliOptions = () => {
+	const args = process.argv.slice(2);
+	args.forEach(arg => {
+		if (arg.indexOf('logs') >= 0) {
+			config.args.logs = true;
 		}
 		else {
-			// myConfig.host = "www.abc.com"
-			// Do not change myConfig.port
+			mochaCliOptions.push(arg);
 		}
-	}
-
-	return appConfig;
+	})
 };
 
 const createTempFolder = (tempPath) => {
@@ -43,7 +34,7 @@ const createTempFolder = (tempPath) => {
 };
 
 const updateTemplateFiles = {
-	indexJs(destFolderPath, appTestPath, serverPath, serverConfig, casesPath) {
+	indexJs(destFolderPath, appTestPath, serverPath) {
 		const destFile = destFolderPath + '/index.js';
 
 		const serverFolderName = path.basename(serverPath);
@@ -54,8 +45,8 @@ const updateTemplateFiles = {
 			.replace('{appTestPath}', appTestPath)
 			.replace('{title}', title)
 			.replace('{serverPath}', serverPath)
-			.replace(`'{serverConfig}'`, JSON.stringify(serverConfig))
-			.replace('{casesPath}', casesPath)
+			.replace(`'{serverConfig}'`, JSON.stringify(config.server))
+			.replace(`'{cliArgs}'`, JSON.stringify(config.args))
 		;
 
 		fs.writeFileSync(destFile, newContent, 'utf-8');
@@ -89,8 +80,9 @@ const updateTemplateFiles = {
 	}
 };
 
-const fn = (appConfig = {}) => {
-	appConfig = parseAppConfig(appConfig);
+const fn = (userConfig = {}) => {
+	parseUserConfig(userConfig);
+	parseCliOptions();
 
 	const tempPath = path.resolve(__dirname, '../.temp');
 	createTempFolder(tempPath);
@@ -105,12 +97,12 @@ const fn = (appConfig = {}) => {
 	fx.copySync(sourceFolderPath, destFolderPath);
 
 	const node_modules = nmpath(appServerPath);
-	updateTemplateFiles.indexJs(destFolderPath, appTestPath, appServerPath, appConfig);
+	updateTemplateFiles.indexJs(destFolderPath, appTestPath, appServerPath);
 	updateTemplateFiles.createTestsJs(destFolderPath, appTestPath, node_modules);
 	updateTemplateFiles.testJs(destFolderPath, appTestPath, node_modules);
 
 	const mochaFile = node_modules + "/mocha/bin/mocha";
-	spawn('node', [mochaFile, destFolderPath], {stdio: "inherit"});
+	spawn('node', [mochaFile, destFolderPath, ...mochaCliOptions], {stdio: "inherit"});
 };
 
 module.exports = fn;
