@@ -4,5 +4,5 @@
 ```sh
 cd /path/to/testor
 cd examples/05-before-and-after-with-title
-node test
+testor
 ```

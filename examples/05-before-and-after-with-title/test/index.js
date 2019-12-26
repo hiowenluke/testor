@@ -1,3 +1,0 @@
-
-const testor = require('../../..');
-testor();
