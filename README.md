@@ -6,7 +6,7 @@ An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), s
 ## Install
 
 ```sh
-npm install testor --save
+npm install testor -g
 ```
 
 ## Usage
@@ -21,13 +21,13 @@ require('testor')()
 
 3\. Create file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)". (See [Define test cases](#Define-test-cases) to learn more)
 
-4\. Run `./test/index.js` under your project root path
+4\. Run test under your project root path
 
 ```sh
-node test
+testor
 ```
 
-Result
+The results will be like below:
 
 ```sh
   01 test web app
@@ -340,14 +340,14 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 
 ## CLi Options
 
-Testor uses [Mocha](https://github.com/mochajs/mocha) to run test cases. You can use some mocha CLi options in Testor.
+Testor uses [mocha](https://github.com/mochajs/mocha) to run test cases. You can use some mocha CLi options in Testor.
 
 #### --logs
 
 Output server logs.
 
 ```sh
-node test --logs
+testor --logs
 ```
 
 #### -b, --bail
@@ -355,7 +355,7 @@ node test --logs
 Force to bail after the first test failure.
 
 ```sh
-node test --bail
+testor --bail
 ```
 
 #### -t, --timeout \<ms\>
@@ -363,19 +363,19 @@ node test --bail
 The timeout of test cases. The default is 2 seconds.
 
 ```sh
-node test -t 3000
+testor -t 3000
 ```
 
 It is equivalents to:
 
 ```sh
-node test --timeout 3s
+testor --timeout 3s
 ```
 
 Use --no-timeouts or --timeout 0 to disable timeout:
 
 ```sh
-node test --no-timeouts
+testor --no-timeouts
 ```
 
 #### --inspect-brk \<port\>
@@ -383,7 +383,7 @@ node test --no-timeouts
 Debug tests running in Node using Chrome DevTools inspector.
 
 ```sh
-node test --inspect-brk 9229
+testor --inspect-brk 9229
 ```
 
 ## License
