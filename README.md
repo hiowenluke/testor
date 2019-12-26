@@ -340,6 +340,8 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 
 ## CLi Options
 
+Testor uses [Mocha](https://github.com/mochajs/mocha) to run test cases. You can use some mocha CLi options in Testor.
+
 #### --logs
 
 Output server logs.
