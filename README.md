@@ -156,7 +156,7 @@ module.exports = [
 
 ### 3. Title of test case
 
-We can specify a title string before url like below, Testor will prints it instead of the url.
+You can specify a title string before url like below, Testor will prints it instead of the url.
 
 ```js
 module.exports = [
@@ -207,7 +207,7 @@ See [demo file](./examples/03-title-of-test-cases/test/cases.js) to learn more.
 
 ### 4. Before and after
 
-Sometimes we wanna do something before test and after tested, use "**before**" and "**after**" like below. The "before" and "after" should be a url array or a url string.
+Sometimes you wanna do something before test and after tested, use "**before**" and "**after**" like below. The "before" and "after" should be a url array or a url string.
 
 ```js
 module.exports = [
@@ -234,7 +234,7 @@ module.exports = [
 ];
 ```
 
-More further, we can use "**resultUrl**" instead of the target url to get the result like below step 3.
+More further, you can use "**resultUrl**" instead of the target url to get the result like below step 3.
 
 ```js
 module.exports = [
@@ -267,7 +267,7 @@ See [demo file](./examples/04-before-and-after/test/cases.js) to learn more.
 
 ### 5. Before and after with title
 
-We can use the title of test case instead of url in "before" and "after".
+You can use the title of test case instead of url in "before" and "after".
 
 ```js
 module.exports = [
@@ -298,7 +298,7 @@ See [demo file](./examples/05-before-and-after-with-title) to learn more.
 
 ### 6. Before and after with scripts
 
-We can write some scripts under directory "test", and use them in "before" and "after".
+You can write some scripts under directory "test", and use them in "before" and "after".
 
 ```js
 module.exports = [
@@ -333,16 +333,16 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 
 * [01 test web app](./examples/01-test-web-app)
 * [02 test web app with config](./examples/02-test-web-app-with-config)
-* [02 title of test cases](./examples/03-title-of-test-cases)
-* [03 before and after](./examples/04-before-and-after)
-* [04 before and after with title](./examples/05-before-and-after-with-title)
-* [05 before and after with scripts](./examples/06-before-and-after-with-scripts)
+* [03 title of test cases](./examples/03-title-of-test-cases)
+* [04 before and after](./examples/04-before-and-after)
+* [05 before and after with title](./examples/05-before-and-after-with-title)
+* [06 before and after with scripts](./examples/06-before-and-after-with-scripts)
 
 ## CLi Options
 
 1\. Show logs
 
-By default, Testor does not output server logs. we can use --logs to output them.
+By default, Testor does not output server logs. you can use --logs to output them.
 
 ```sh
 node test --logs
@@ -350,7 +350,7 @@ node test --logs
 
 2\. Using Mocha CLi options
 
-Testor uses mocha to do test (when Testor was installed, mocha was also installed), we can use the below mocha CLi options in Testor.
+Testor uses mocha to do test (when Testor was installed, mocha was also installed), you can use the below mocha CLi options in Testor.
 
 1\) The -b, --bail option forces Testor to bail after the first test failure.
 
@@ -370,7 +370,7 @@ is equivalent to:
 node test --timeout 3s
 ```
 
-3\) To disable timeouts entirely, we can use --no-timeouts which is equivalent to --timeout 0:
+3\) To disable timeouts entirely, you can use --no-timeouts which is equivalent to --timeout 0:
 
 ```sh
 node test --no-timeouts
