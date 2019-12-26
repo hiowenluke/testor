@@ -334,7 +334,7 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 
 Testor uses [mocha](https://github.com/mochajs/mocha) to run test cases. You can use some mocha CLi options in Testor.
 
-#### Specify the web server root path
+### Specify the web server root path
 
 By default, Testor will uses the current path as the web server root path.
  
@@ -356,7 +356,7 @@ Or
 testor ./web/server/root
 ```
 
-#### --config
+### --config
 
 Apply the web server config.
 
@@ -370,7 +370,7 @@ It is equivalents to `testor --config=./config.js`. You can specify another conf
 testor --config=./myconfig.js
 ```
 
-#### --logs
+### --logs
 
 Output server logs.
 
@@ -378,7 +378,7 @@ Output server logs.
 testor --logs
 ```
 
-#### -b, --bail
+### -b, --bail
 
 Force to bail after the first test failure.
 
@@ -386,7 +386,7 @@ Force to bail after the first test failure.
 testor --bail
 ```
 
-#### -t, --timeout \<ms\>
+### -t, --timeout \<ms\>
 
 The timeout of test cases. The default is 2 seconds.
 
@@ -406,7 +406,7 @@ Use --no-timeouts or --timeout 0 to disable timeout:
 testor --no-timeouts
 ```
 
-#### --inspect-brk \<port\>
+### --inspect-brk \<port\>
 
 Debug tests running in Node using Chrome DevTools inspector.
 
