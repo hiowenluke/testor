@@ -186,13 +186,21 @@ const fn = async (testCase, _testCases) => {
 
 	return new Promise(resolve => {
 		request[method](data, async (error, response, body) => {
+			after && await performUrls(after);
+
+			if (error) {
+				console.log(error);
+				return resolve(false);
+			}
+
+			if (!body) {
+				return resolve(false);
+			}
 
 			const result = resultUrl ?
 				await getResultFromUrl(resultUrl) :
 				parseResult(body)
 			;
-
-			after && await performUrls(after);
 
 			const isOK = compareResult(result, testCase);
 			resolve(isOK);
