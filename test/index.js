@@ -24,9 +24,11 @@ const main = () => {
 		const examplePath = examplesPath + '/' + exampleName;
 		if (!fs.statSync(examplePath).isDirectory()) return;
 
-		const userConfigFile = fs.existsSync(examplePath + '/config.js') ? '--config' : '';
-		const args = [testorPath, examplePath, userConfigFile];
+		const args = [testorPath, examplePath];
 		if (debug) args.unshift(debug);
+
+		const userConfigFile = fs.existsSync(examplePath + '/config.js') ? '--config' : '';
+		if (userConfigFile) args.push(userConfigFile);
 
 		cp.spawnSync('node', args, {stdio: "inherit"});
 	});
