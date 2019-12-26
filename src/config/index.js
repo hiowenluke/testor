@@ -6,9 +6,9 @@ const me = {
 		port: 3000,
 	},
 
-	args: {
+	cliOptions: {
 		logs: false,
-		debugger: false,
+		userConfigFile: null,
 	}
 };
 
