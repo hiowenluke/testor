@@ -11,9 +11,7 @@ const serverConfig = '{serverConfig}';
 
 const wait = (ms = 1000) => {
 	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve();
-		}, ms);
+		setTimeout(resolve, ms);
 	})
 };
 
