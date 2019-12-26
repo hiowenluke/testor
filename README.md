@@ -1,8 +1,7 @@
 
 # Testor
 
-An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), support HTTP and HTTPS, GET and POST.
-
+An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), support HTTP and HTTPS, GET and POST. Testor is based on [Mocha](https://github.com/mochajs/mocha).
 
 ## Install
 
@@ -46,9 +45,9 @@ Result
 
 Use an array to define test cases in file "[./test/cases.js](./examples/01-test-web-app/test/cases.js)".
 
-### 1. Basic definition
+### 1. Minimal definition
 
-1\. Minimal version, with a result object
+A target url with a result object
 
 ```js
 module.exports = [
@@ -68,7 +67,9 @@ module.exports = [
 ];
 ```
 
-2\. With "method", "params", "result" and "verify"
+### 2. Basic definition
+
+1\) With "method", "params", "result" and "verify"
 
 ```js
 module.exports = [
@@ -103,7 +104,7 @@ module.exports = [
 ];
 ```
 
-3\. Just "result"
+2\) Just "result"
 
 ```js
 module.exports = [
@@ -119,7 +120,7 @@ module.exports = [
 ];
 ```
 
-4\. Just "params" and "verify"
+3\) Just "params" and "verify"
 
 ```js
 module.exports = [
@@ -138,7 +139,7 @@ module.exports = [
 ];
 ```
 
-5\. Just a function
+4\) Just a function
 
 ```js
 module.exports = [
@@ -153,7 +154,7 @@ module.exports = [
 ];
 ```
 
-### 2. Using title of test case
+### 3. Title of test case
 
 We can specify a title string before url like below, Testor will prints it instead of the url.
 
@@ -204,7 +205,7 @@ Result
 
 See [demo file](./examples/03-title-of-test-cases/test/cases.js) to learn more.
 
-### 3. Before and after
+### 4. Before and after
 
 Sometimes we wanna do something before test and after tested, use "**before**" and "**after**" like below. The "before" and "after" should be a url array or a url string.
 
@@ -264,7 +265,7 @@ module.exports = [
 
 See [demo file](./examples/04-before-and-after/test/cases.js) to learn more.
 
-### 4. Before and after with title
+### 5. Before and after with title
 
 We can use the title of test case instead of url in "before" and "after".
 
@@ -295,7 +296,7 @@ module.exports = [
 
 See [demo file](./examples/05-before-and-after-with-title) to learn more.
 
-### 5. Before and after with scripts
+### 6. Before and after with scripts
 
 We can write some scripts under directory "test", and use them in "before" and "after".
 
@@ -331,23 +332,48 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 ## Examples
 
 * [01 test web app](./examples/01-test-web-app)
+* [02 test web app with config](./examples/02-test-web-app-with-config)
 * [02 title of test cases](./examples/03-title-of-test-cases)
 * [03 before and after](./examples/04-before-and-after)
 * [04 before and after with title](./examples/05-before-and-after-with-title)
 * [05 before and after with scripts](./examples/06-before-and-after-with-scripts)
-* [99 with config](./examples/02-test-web-app-with-config)
 
-## Options
+## CLi Options
 
-It can be omitted if it is the default value as below.
+1\. Show logs
 
-```js
-const options = {
-    protocol: 'http',
-    host: 'localhost',
-    port: 3000,
-};
-require('testor')(options)
+By default, Testor does not output server logs. we can use --logs to output them.
+
+```sh
+node test --logs
+```
+
+2\. Using Mocha CLi options
+
+Testor uses mocha to do test (when Testor was installed, mocha was also installed), we can use the below mocha CLi options in Testor.
+
+1\) The -b, --bail option forces Testor to bail after the first test failure.
+
+```sh
+node test --bail
+```
+
+2\) The -t, --timeout <ms> option is the timeout of test cases. The default is 2 seconds.
+
+```sh
+node test -t 3000
+```
+
+is equivalent to:
+
+```sh
+node test --timeout 3s
+```
+
+3\) To disable timeouts entirely, we can use --no-timeouts which is equivalent to --timeout 0:
+
+```sh
+node test --no-timeouts
 ```
 
 ## License
