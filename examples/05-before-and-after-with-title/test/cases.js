@@ -46,8 +46,12 @@ const me = [
 	},
 
 	'kill',
-	'/user/kill?username=owen',
+	'/user/kill',
 	{
+		params: {
+			username: 'owen',
+		},
+
 		verify(result) {
 			return result.data === 1;
 		}
