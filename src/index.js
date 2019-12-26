@@ -54,6 +54,11 @@ const init = {
 					// do nothing
 					break;
 			}
+
+			if (!fs.existsSync(appServerPath)) {
+				console.log(`Cannot find ${appServerPath}`);
+				return false;
+			}
 		}
 	},
 
@@ -130,14 +135,18 @@ const updateTemplateFiles = {
 };
 
 const fn = () => {
-	kdo.doSync(init);
+	let result;
+
+	result = kdo.doSync(init);
+	if (result === false) return;
 
 	const appName = path.basename(appServerPath);
 	const destFolderPath = tempPath + '/' + appName;
 	fx.copySync(sourceFolderPath, destFolderPath);
 
 	const node_modules = nmpath(appServerPath);
-	kdo.doSync(updateTemplateFiles, {destFolderPath, node_modules});
+	result = kdo.doSync(updateTemplateFiles, {destFolderPath, node_modules});
+	if (result === false) return;
 
 	const mochaFile = node_modules + "/mocha/bin/mocha";
 	cp.spawn('node', [mochaFile, destFolderPath, ...mochaCliOptions], {stdio: "inherit"});
