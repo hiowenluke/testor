@@ -1,7 +1,7 @@
 
 # Testor
 
-An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), support HTTP and HTTPS, GET and POST. Testor is based on [Mocha](https://github.com/mochajs/mocha).
+An easy-to-use testing framework for web app of [Node.js](https://nodejs.org), support HTTP and HTTPS, GET and POST.
 
 ## Install
 
