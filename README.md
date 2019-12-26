@@ -202,7 +202,7 @@ Result
   2 passing (1s)
 ```
 
-See [demo file](./examples/02-title-of-test-cases/test/cases.js) to learn more.
+See [demo file](./examples/03-title-of-test-cases/test/cases.js) to learn more.
 
 ### 3. Before and after
 
@@ -262,7 +262,7 @@ module.exports = [
 ];
 ```
 
-See [demo file](./examples/03-before-and-after/test/cases.js) to learn more.
+See [demo file](./examples/04-before-and-after/test/cases.js) to learn more.
 
 ### 4. Before and after with title
 
@@ -293,7 +293,7 @@ module.exports = [
 ];
 ```
 
-See [demo file](./examples/04-before-and-after-with-title) to learn more.
+See [demo file](./examples/05-before-and-after-with-title) to learn more.
 
 ### 5. Before and after with scripts
 
@@ -326,16 +326,16 @@ module.exports = [
 ];
 ```
 
-See [demo file](./examples/05-before-and-after-with-scripts/test) to learn more. 
+See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more. 
 
 ## Examples
 
 * [01 test web app](./examples/01-test-web-app)
-* [02 title of test cases](./examples/02-title-of-test-cases)
-* [03 before and after](./examples/03-before-and-after)
-* [04 before and after with title](./examples/04-before-and-after-with-title)
-* [05 before and after with scripts](./examples/05-before-and-after-with-scripts)
-* [99 with config](./examples/99-with-config)
+* [02 title of test cases](./examples/03-title-of-test-cases)
+* [03 before and after](./examples/04-before-and-after)
+* [04 before and after with title](./examples/05-before-and-after-with-title)
+* [05 before and after with scripts](./examples/06-before-and-after-with-scripts)
+* [99 with config](./examples/02-test-web-app-with-config)
 
 ## Options
 
