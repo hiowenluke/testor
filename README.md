@@ -340,23 +340,17 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 
 ## CLi Options
 
-### 1\. Testor CLi options
-
 #### --logs
 
-By default, Testor does not output server logs. you can use --logs to output them.
+Output server logs.
 
 ```sh
 node test --logs
 ```
 
-### 2\. Using mocha CLi options
-
-Testor uses mocha to do test (when Testor was installed, mocha was also installed), you can use the below mocha CLi options in Testor.
-
 #### -b, --bail
 
-Force Testor to bail after the first test failure.
+Force to bail after the first test failure.
 
 ```sh
 node test --bail
@@ -376,7 +370,7 @@ It is equivalents to:
 node test --timeout 3s
 ```
 
-To disable timeouts entirely, you can use --no-timeouts which is equivalent to --timeout 0:
+Use --no-timeouts or --timeout 0 to disable timeout:
 
 ```sh
 node test --no-timeouts
