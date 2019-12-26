@@ -5,8 +5,7 @@
   "main": "index.js",
   "bin": "bin/testor.js",
   "scripts": {
-    "test": "node test",
-    "preinstall": "npm install -g testor"
+    "test": "node test"
   },
   "keywords": [],
   "author": "hi.owen.luke@gmail.com",
