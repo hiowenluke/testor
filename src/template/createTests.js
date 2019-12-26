@@ -71,6 +71,7 @@ const getTestCases = (testCasesDefs) => {
 
 		testCase.title = title;
 		testCase.originalUrl = url;
+
 		testCases.push(testCase);
 	}
 
