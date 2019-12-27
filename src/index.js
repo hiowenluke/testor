@@ -151,7 +151,9 @@ const fn = () => {
 	if (result === false) return;
 
 	const mochaFile = node_modules + "/mocha/bin/mocha";
-	cp.spawn('node', [mochaFile, destFolderPath, ...mochaCliOptions], {stdio: "inherit"});
+	cp.spawnSync('node', [mochaFile, destFolderPath, ...mochaCliOptions], {stdio: "inherit"});
+
+	fx.removeSync(destFolderPath);
 };
 
 module.exports = fn;
