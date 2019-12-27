@@ -27,7 +27,14 @@ const compareResult = (result, def) => {
 	const verify = def.verify;
 	const expect = def.result;
 
-	const isOK = verify ? verify(result) : _.isEqual(result, expect);
+	let isOK;
+	try {
+		isOK = verify ? verify(result) : _.isEqual(result, expect);
+	}
+	catch(e) {
+		console.log(e);
+		return false;
+	}
 
 	if (!isOK) {
 		console.log('result', JSON.stringify(result, null, 4));
