@@ -1,4 +1,5 @@
 
+const fs = require('fs');
 const spawn = require('child_process').spawn;
 const createTests = require('./createTests');
 
@@ -7,7 +8,7 @@ const appServerPath = '{appServerPath}';
 const appServerConfig = '{appServerConfig}';
 const cliOptions = '{cliOptions}';
 
-const testCasesDefs = require(appServerPath + '/test/cases');
+const appTestPath = appServerPath + '/test';
 
 const wait = (ms = 1000) => {
 	return new Promise(resolve => {
@@ -28,5 +29,16 @@ describe(title, () => {
 		process.kill(cp.pid, 'SIGTERM');
 	});
 
-	createTests(appServerConfig, testCasesDefs);
+	const files = fs.readdirSync(appTestPath);
+	files.forEach(filename => {
+		const filepath = appTestPath + '/' + filename;
+
+		if (filename.substr(0, 1) === '.') return;
+		if (!/\.js$/.test(filename)) return;
+		if (fs.statSync(filepath).isDirectory()) return;
+
+		const testCasesDefs = require(filepath);
+		createTests(appServerConfig, testCasesDefs);
+	});
+
 });
