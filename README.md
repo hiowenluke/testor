@@ -329,6 +329,7 @@ See [demo file](./examples/06-before-and-after-with-scripts/test) to learn more.
 * [04 before and after](./examples/04-before-and-after)
 * [05 before and after with title](./examples/05-before-and-after-with-title)
 * [06 before and after with scripts](./examples/06-before-and-after-with-scripts)
+* [07 multi test cases files](./examples/07-multi-test-cases-files)
 
 ## CLi Options
 
