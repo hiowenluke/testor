@@ -3,6 +3,6 @@
 
 ```sh
 cd /path/to/testor
-cd examples/06-before-and-after-with-title
+cd examples/03-title-of-test-cases
 testor
 ```
