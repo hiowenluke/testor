@@ -107,14 +107,14 @@ const parseUrls = (serverConfig, testCases) => {
 	});
 };
 
-const fn = (serverConfig, testCasesDefs) => {
+const fn = (serverConfig, testCasesDefs, prefix) => {
 	const testCases = getTestCases(testCasesDefs);
 	parseUrls(serverConfig, testCases);
 
 	for (let i = 0; i < testCases.length; i ++) {
 		const testCase = testCases[i];
 
-		it(testCase.title, async () => {
+		it(prefix + testCase.title, async () => {
 			const result = await test(testCase, testCases);
 			expect(result).to.be.true;
 		});
