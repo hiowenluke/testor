@@ -29,6 +29,7 @@ describe(title, () => {
 		process.kill(cp.pid, 'SIGTERM');
 	});
 
+	const casesFiles = [];
 	const files = fs.readdirSync(appTestPath);
 	files.forEach(filename => {
 		const filepath = appTestPath + '/' + filename;
@@ -37,8 +38,14 @@ describe(title, () => {
 		if (!/\.js$/.test(filename)) return;
 		if (fs.statSync(filepath).isDirectory()) return;
 
+		casesFiles.push(filename);
+	});
+
+	casesFiles.forEach(filename => {
+		const filepath = appTestPath + '/' + filename;
 		const testCasesDefs = require(filepath);
-		createTests(appServerConfig, testCasesDefs);
+		const prefix = casesFiles.length === 1 ? '' : '[' + filename.replace(/\.js$/, '') + '] ';
+		createTests(appServerConfig, testCasesDefs, prefix);
 	});
 
 });
