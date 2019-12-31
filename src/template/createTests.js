@@ -4,7 +4,7 @@ const parse = require('url').parse;
 const test = require('./test');
 const _ = require('lodash');
 
-const parseTestCasesDefs = (testCasesDefs) => {
+const parseTestCasesDefs = (testCasesDefs, filename) => {
 	let titles = [];
 	let urls = [];
 	let defs = [];
@@ -16,6 +16,9 @@ const parseTestCasesDefs = (testCasesDefs) => {
 				urls[i] = item;
 			}
 			else {
+				if (item.indexOf('.') >= 0) {
+					throw new Error(`The title ${item} in ${filename}.js should not contain "."`);
+				}
 				titles[i] = item;
 			}
 		}
@@ -30,7 +33,7 @@ const parseTestCasesDefs = (testCasesDefs) => {
 };
 
 const getTestCases = (testCasesDefs) => {
-	const [titles, urls, defs] = parseTestCasesDefs(testCasesDefs);
+	const [titles, urls, defs] = testCasesDefs;
 	const testCases = [];
 
 	for (let i = 0; i < urls.length; i ++) {
@@ -107,18 +110,34 @@ const parseUrls = (serverConfig, testCases) => {
 	});
 };
 
-const fn = (serverConfig, testCasesDefs, prefix) => {
-	const testCases = getTestCases(testCasesDefs);
-	parseUrls(serverConfig, testCases);
+const fn = (serverConfig, appTestPath, casesFiles) => {
+	const allDefs = {};
 
-	for (let i = 0; i < testCases.length; i ++) {
-		const testCase = testCases[i];
+	casesFiles.forEach(filename => {
+		const filepath = appTestPath + '/' + filename;
+		const defs = require(filepath);
 
-		it(prefix + testCase.title, async () => {
-			const result = await test(testCase, testCases);
-			expect(result).to.be.true;
-		});
-	}
+		const testCasesDefs = parseTestCasesDefs(defs, filename);
+		const testCases = getTestCases(testCasesDefs);
+		parseUrls(serverConfig, testCases);
+
+		const catName = filename.replace(/\.js$/, ''); // "others.js" => "others"
+		allDefs[catName] = testCases;
+	});
+
+	Object.keys(allDefs).forEach(catName => {
+		const thisDefs = allDefs[catName];
+
+		for (let i = 0; i < thisDefs.length; i ++) {
+			const testCase = thisDefs[i];
+			const prefix = casesFiles.length === 1 ? '' : '[' + catName + '] ';
+
+			it(prefix + testCase.title, async () => {
+				const result = await test(testCase, catName, allDefs);
+				expect(result).to.be.true;
+			});
+		}
+	});
 };
 
 module.exports = fn;

@@ -41,11 +41,5 @@ describe(title, () => {
 		casesFiles.push(filename);
 	});
 
-	casesFiles.forEach(filename => {
-		const filepath = appTestPath + '/' + filename;
-		const testCasesDefs = require(filepath);
-		const prefix = casesFiles.length === 1 ? '' : '[' + filename.replace(/\.js$/, '') + '] ';
-		createTests(appServerConfig, testCasesDefs, prefix);
-	});
-
+	createTests(appServerConfig, appTestPath, casesFiles);
 });

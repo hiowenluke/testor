@@ -7,8 +7,10 @@ const qs = require('qs');
 const cp = require('child_process');
 
 const appTestPath = '{appTestPath}';
+
 let hostDefinition = {};
-let testCases = [];
+let catName = '';
+let allDefs = {};
 
 const detectMethod = (api, method) => {
 	if (!method) {
@@ -100,6 +102,25 @@ const performUrls = async (urls) => {
 	}
 };
 
+const retrieveRefDef = (str) => {
+	let refCatNme = catName;
+	let refTitle = str;
+
+	const temp = str.match(/^\w+?(?=\.)/); // "others.about" => "others"
+	if (temp) {
+		refCatNme = temp[0];
+		refTitle = str.substr(refCatNme.length + 1);
+	}
+
+	const refDefs = allDefs[refCatNme];
+	const index = refDefs.findIndex(item => item.title === refTitle);
+	if (index === -1) {
+		throw new Error(`The title ${refTitle} in ${catName}.js is not exists`);
+	}
+
+	return refDefs[index];
+};
+
 const getResultFromUrl = (url) => {
 	const forUrl = () => {
 
@@ -110,14 +131,9 @@ const getResultFromUrl = (url) => {
 
 		// title "About" => url "/about"
 		if (url.substr(0, 1) !== '/') {
-			const title = url;
-			const index = testCases.findIndex(item => item.title === title);
-			if (index === -1) {
-				throw new Error(`Title ${title} is not exists`);
-			}
+			const refDef = retrieveRefDef(url);
+			const {originalUrl, params} = refDef;
 
-			const originalUrl = testCases[index].originalUrl;
-			const params = testCases[index].params;
 			if (!params) {
 				url = originalUrl;
 			}
@@ -181,13 +197,15 @@ const getResultFromUrl = (url) => {
 	}
 };
 
-const fn = async (testCase, _testCases) => {
+const fn = async (testCase, _catName, _allDefs) => {
+	catName = _catName;
+	allDefs = _allDefs;
+
 	const [method, data] = parseTestCase(testCase);
 	const {before, after, resultUrl} = testCase;
 
 	const {protocol, host} = testCase;
 	hostDefinition = {protocol, host};
-	testCases = _testCases;
 
 	before && await performUrls(before);
 
