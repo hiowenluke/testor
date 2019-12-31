@@ -8,6 +8,7 @@ const me = [
 		}
 	},
 
+	'hello',
 	'/helloWorld',
 	(result) => {
 		return result.data.msg.indexOf('Hello') >= 0;
