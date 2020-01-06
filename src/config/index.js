@@ -9,7 +9,7 @@ const me = {
 	cliOptions: {
 		logs: false,
 		userConfigFile: null,
-		waitTime: 1000, // milliseconds
+		wait: 1000, // milliseconds
 	}
 };
 
