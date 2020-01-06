@@ -19,10 +19,13 @@ const wait = (ms = 1000) => {
 describe(title, () => {
 	let cp;
 
-	before(async () => {
+	before(async function() {
+		this.timeout(cliOptions.waitTime + 1000);
+
 		const options = cliOptions.logs ? {stdio: 'inherit'} : {};
 		cp = spawn('node', [appServerPath], options);
-		await wait();
+
+		await wait(cliOptions.waitTime);
 	});
 
 	after(async () => {
