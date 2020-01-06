@@ -22,7 +22,7 @@ const init = {
 		options.forEach(opt => {
 			if (!opt) return;
 
-			if (opt.indexOf('--logs') >= 0 || opt.indexOf('--config') >= 0) {
+			if (opt.indexOf('--logs') >= 0 || opt.indexOf('--config') >= 0 || opt.indexOf('--waitTime') >= 0) {
 				testorCliOptions.push(opt);
 			}
 			else if (/^[./]/.test(opt)) {
@@ -71,6 +71,9 @@ const init = {
 			}
 			else if (opt.indexOf('--config') >= 0) {
 				config.cliOptions.userConfigFile = opt.split('=')[1] || './config.js';
+			}
+			else if (opt.indexOf('--waitTime') >= 0) {
+				config.cliOptions.waitTime = opt.split('=')[1] - 0;
 			}
 		})
 	},
