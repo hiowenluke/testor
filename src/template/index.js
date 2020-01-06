@@ -20,15 +20,15 @@ describe(title, () => {
 	let cp;
 
 	before(async function() {
-		if (cliOptions.waitTime > 1000) {
-			this.timeout(cliOptions.waitTime + 1000);
-			console.log(`  Wait for the server to be ready, about ${cliOptions.waitTime / 1000} seconds...`);
+		if (cliOptions.wait > 1000) {
+			this.timeout(cliOptions.wait + 1000);
+			console.log(`  Wait for the server to be ready, about ${cliOptions.wait / 1000} seconds...`);
 		}
 
 		const options = cliOptions.logs ? {stdio: 'inherit'} : {};
 		cp = spawn('node', [appServerPath], options);
 
-		await wait(cliOptions.waitTime);
+		await wait(cliOptions.wait);
 	});
 
 	after(async () => {
