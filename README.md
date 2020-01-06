@@ -379,12 +379,12 @@ Output server logs.
 testor --logs
 ```
 
-#### --waitTime
+#### --wait
 
-Time (milliseconds) to wait for the server to finish starting. The default value is 1000.
+Time (milliseconds) to wait for the server to be ready. The default value is 1000.
 
 ```sh
-testor --waitTime=2000
+testor --wait=2000
 ```
 
 ### 2. Mocha options
