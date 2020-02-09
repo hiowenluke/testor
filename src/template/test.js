@@ -56,11 +56,11 @@ const parseResult = (str) => {
 	}
 
 	try {
-		result = JSON.parse(str);
+		return JSON.parse(str);
 	}
-	catch(e) {}
-
-	return result;
+	catch(e) {
+		return str;
+	}
 };
 
 const parseTestCase = (testCase) => {
