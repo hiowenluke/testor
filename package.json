@@ -22,7 +22,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "noapi": "^2.1.1"
+    "noapi": "^2.1.12"
   },
   "repository": {
     "type": "git",
